@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <div class="container">
+    <h1>{{ module_name }}</h1>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      {% include "components/errors.html" %}
+    </div>
+  </div>
+  <div x-data="ChallengeBoard">
+	<div
+		x-ref="challengeWindow" id="challenge-window" class="modal fade" tabindex="-1" role="dialog" x-data=""
+		x-html="$store.challenge.data.view"
+	></div>
+    {% for category, challenges in categories.items() %}
+      <div class="pt-5">
+        <div class="category-header mb-3">
+          <h3>{{ category }}</h3>
+        </div>
+        <div class="category-challenges d-flex flex-column">
+          <div class="challenges-row row">
+            {% for challenge in challenges %}
+              <div class="col-sm-6 col-md-4 col-lg-3 my-3">
+                <button
+                  class="challenge-button btn btn-dark w-100 h-100 {% if challenge.solved %}challenge-solved{% endif %}"
+                  @click="loadChallenge({{ challenge.id }})"
+                >
+                  <div class="challenge-inner my-3">
+                    <p>{{ challenge.name }}</p>
+                    <span>{{ challenge.value }}</span>
+                  </div>
+                </button>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="module" defer src="{{url_for('module_assets', path='js/challenges.369de531.js')}}"></script>
+{% endblock %}
