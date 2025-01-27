@@ -9,7 +9,7 @@ The main purpose of this is to better organize challenges which would be useful 
 
 ## TODOs
 
-[ ] Fix redirect to the old /challenges page
-[ ] Support images for modules so that the modules page is more aesthetic
-[ ] Ensure that automated tools like CTFCLI can still work with this
-[ ] Rewrite assets which is currently copied from CTFd
+- Fix redirect to the old /challenges page
+- Support images for modules so that the modules page is more aesthetic
+- Ensure that automated tools like CTFCLI can still work with this
+- Rewrite assets which is currently copied from CTFd
