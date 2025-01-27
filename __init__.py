@@ -9,21 +9,17 @@ from .patches.admin import (
     patch_update_challenge
 )
 from .patches.navbar import patch_navbar
+from flask import request, redirect, url_for
 import os
+
 
 def load(app):
 
-    # TODO: patch!
-    # from flask import redirect, url_for
-    # # we hook flask redirect to always redirect any challenges to modules
-    # # this allows /challenges endpoint to still exist without patching CTFd code
-    # def custom_redirect(location, *args, **kwargs):
-    #     if location == url_for('challenges.listing'):
-    #         return redirect(url_for('modules.listing'), *args, **kwargs)
-    #     return redirect(location, *args, **kwargs)
-    #
-    # import flask
-    # flask.redirect = custom_redirect
+    # we hook challenge listing to list modules instead
+    @app.before_request
+    def check_challenges_endpoint():
+        if request.endpoint == 'challenges.listing':
+            return redirect(url_for('modules.listing'))
 
     # register assets directory
     dir_path = os.path.dirname(os.path.realpath(__file__))

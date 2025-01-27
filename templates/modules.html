@@ -1,24 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="jumbotron">
-    <div class="container">
-        <h1>Modules</h1>
-    </div>
+	<div class="container">
+		<h1>Modules</h1>
+	</div>
 </div>
 <div class="container">
-    <div class="row">
-        {% for module in modules %}
-        <div class="col-sm-6 col-md-4 col-lg-3 my-3">
-            <a href="{{ url_for('modules.module_challenges', module_name=module) }}" class="text-decoration-none">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ module }}</h5>
-                        <p class="card-text">{{ stats[module]['solved'] }} / {{ stats[module]['total'] }}</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        {% endfor %}
-    </div>
+	<div class="row">
+		{% for module in modules %}
+		<div class="col-sm-6 col-md-4 col-lg-3 my-3">
+			<a href="{{ url_for('modules.module_challenges', module_name=module) }}" class="text-decoration-none">
+				<div class="card h-100">
+					{% set module_image = url_for('module_assets', path='img/'+module+'.png') %}
+                    {% set placeholder_image = url_for('module_assets', path='img/placeholder.png') %}
+					<img src="{{ module_image }}" 
+					 class="card-img-top" 
+					 alt="{{ module }} image"
+					 onerror="this.onerror=null; this.src='{{ placeholder_image }}';">
+					<div class="card-body">
+						<h5 class="card-title">{{ module }}</h5>
+						<p class="card-text">{{ stats[module]['solved'] }} / {{ stats[module]['total'] }}</p>
+					</div>
+				</div>
+			</a>
+		</div>
+		{% endfor %}
+	</div>
 </div>
 {% endblock %}
