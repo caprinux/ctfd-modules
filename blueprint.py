@@ -38,7 +38,7 @@ def load_bp():
             filter_column = Solves.user_id
 
         # get list of modules
-        modules = db.session.query(Challenges.module).distinct().all()
+        modules = db.session.query(Challenges.module).filter(Challenges.state == "visible").distinct().all()
         module_list = [m[0] if m[0] is not None else 'uncategorized' for m in modules]
         module_list.sort()
 
@@ -46,13 +46,14 @@ def load_bp():
         module_stats = {}
         for module in module_list:
             # Get total challenges in module
-            total = Challenges.query.filter_by(module=module).count()
+            total = Challenges.query.filter_by(module=module, state="visible").count()
 
             # Get solved challenges for current user in this module
             if account:
                 solved = db.session.query(Solves)\
                     .join(Challenges)\
                     .filter(Challenges.module == module)\
+                    .filter(Challenges.state == "visible")\
                     .filter(filter_column == account.id)\
                     .count()
             else:
